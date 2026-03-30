@@ -1,0 +1,4 @@
+bin/
+*.o
+*.pcap
+logs/*.log
