@@ -20,4 +20,17 @@
 int send_icmp_echo(int sock, struct in_addr dst_addr,
                    uint16_t id, uint16_t seq, int bad_csum);
 
+/**
+ * ICMP Echo Reply를 수신하고 RTT를 반환한다.
+ *
+ * @param recv_sock  IPPROTO_ICMP raw socket (수신 전용)
+ * @param id         기다릴 Echo ID (송신 시 사용한 값과 일치해야 함)
+ * @param seq        기다릴 시퀀스 번호
+ * @param timeout_ms 최대 대기 시간 (밀리초)
+ * @param rtt_ms     측정된 RTT를 저장할 포인터
+ * @return 수신 성공 시 0, 타임아웃 시 -1
+ */
+int recv_icmp_reply(int recv_sock, uint16_t id, uint16_t seq,
+                    int timeout_ms, double *rtt_ms);
+
 #endif /* BUILDER_H */
