@@ -27,7 +27,8 @@ int main(int argc, char *argv[]) {
 
     /* 목적지 IP 파싱 */
     struct in_addr dst_addr;
-    if (inet_aton(argv[1], &dst_addr) == 0) {
+    // if (inet_aton(argv[1], &dst_addr) == 0) {
+    if (inet_pton(AF_INET, argv[1], &dst_addr) != 1) {
         fprintf(stderr, "[오류] 잘못된 IP 주소: %s\n", argv[1]);
         return EXIT_FAILURE;
     }
