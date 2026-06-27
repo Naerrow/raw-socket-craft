@@ -34,7 +34,7 @@ ssize_t session_send(int sock, struct sockaddr_in *dst,
                      const char *payload);
 
 /**
- * 패킷을 수신하고 커스텀 헤더를 파싱한다.
+ * 패킷을 수신하고 커스텀 헤더를 파싱한다. (블로킹)
  *
  * @param sock    raw socket
  * @param hdr     파싱된 헤더를 저장할 버퍼
@@ -44,6 +44,19 @@ ssize_t session_send(int sock, struct sockaddr_in *dst,
  */
 int session_recv(int sock, CustomHeader *hdr, char *payload,
                  struct sockaddr_in *src);
+
+/**
+ * 타임아웃이 있는 패킷 수신. select()로 대기하여 Ctrl+C 반응 가능.
+ *
+ * @param sock       raw socket
+ * @param hdr        파싱된 헤더를 저장할 버퍼
+ * @param payload    페이로드를 저장할 버퍼
+ * @param src        송신자 주소 (NULL 가능)
+ * @param timeout_ms 최대 대기 시간 (밀리초). 0이면 즉시 반환.
+ * @return 수신 성공 시 1, 타임아웃/실패 시 0
+ */
+int session_recv_timeout(int sock, CustomHeader *hdr, char *payload,
+                         struct sockaddr_in *src, int timeout_ms);
 
 /**
  * 수신한 헤더 정보를 사람이 읽기 쉬운 형태로 출력한다.
